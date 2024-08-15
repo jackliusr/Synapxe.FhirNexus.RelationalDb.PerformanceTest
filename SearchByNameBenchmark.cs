@@ -3,9 +3,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
 {
-    public class ComparePerformance
+    public class SearchByNameBenchmark
     {
         private string hcicode;
+        private static Uri uri = new Uri("http://ihis.sg/extension/enrollment-capacity");
         private FullTablesDbContext _fullTablesDbContext;
         private ReducedTablesDbContext _reducedTablesDbContext;
         private JsonColumnDbContext _jsonColumnDbContext;
@@ -35,19 +36,19 @@ namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
         [Benchmark]
         public void FullTablesDbContext()
         {
-            _fullTablesDbContext.Organization.Where(x => x.Identifier.FirstOrDefault().Value == hcicode && x.Extension.Any(y => y.Value.Integer > 450)).ToList();
+            _fullTablesDbContext.Organization.Where(x => x.Name.Contains("Test Organization 1628049360871")).ToList();
         }
 
         [Benchmark]
         public void ReducedTablesDbContext()
         {
-            _reducedTablesDbContext.Organization.Where(x => x.Identifier.FirstOrDefault().Value == hcicode && x.Extension.Any(y => y.Value.Integer > 450)).ToList();
+            _reducedTablesDbContext.Organization.Where(x => x.Name.Contains("Test Organization 1628049360871")).ToList();
         }
 
         [Benchmark]
         public void JsonColumnDbContext()
         {
-            _jsonColumnDbContext.Organization.Where(x => x.Identifier.FirstOrDefault().Value == hcicode && x.Extension.Any(y => y.Value.Integer > 450)).ToList();
+            _jsonColumnDbContext.Organization.Where(x => x.Name.Contains("Test Organization 1628049360871")).ToList();
         }
     }
 }
