@@ -44,29 +44,37 @@ BenchmarkRunner.Run<SearchByNameBenchmark>(ManualConfig
 
 /* Postgresql
 
-BenchmarkDotNet v0.14.0, Windows 10 (10.0.19045.4894/22H2/2022Update)
-
 SearchByIdentifierBenchmark
-| Method                 | Mean     | Error    | StdDev   | Median   |
-|----------------------- |---------:|---------:|---------:|---------:|
-| FullTablesDbContext    | 24.26 ms | 1.473 ms | 4.031 ms | 23.10 ms |
-| ReducedTablesDbContext | 21.59 ms | 1.006 ms | 2.788 ms | 20.65 ms |
-| JsonColumnDbContext    | 13.16 ms | 0.347 ms | 0.991 ms | 12.98 ms |
+| Method                   | Mean     | Error    | StdDev    |
+|------------------------- |---------:|---------:|----------:|
+| FullTablesDbContext      | 55.18 ms | 2.863 ms |  8.442 ms |
+| ReducedTablesDbContext   | 56.29 ms | 4.574 ms | 13.485 ms |
+| JsonColumnDbContext      | 79.76 ms | 4.966 ms | 14.249 ms |
+| FullTablesDbContextPg    | 48.31 ms | 1.561 ms |  4.479 ms |
+| ReducedTablesDbContextPg | 32.92 ms | 1.411 ms |  4.117 ms |
+| JsonColumnDbContextPg    | 28.36 ms | 0.529 ms |  0.954 ms |
 
-BulkReadBenchmark.
-| Method                  | Mean     | Error    | StdDev   | Median   |
-|------------------------ |---------:|---------:|---------:|---------:|
-| FullTablesDbContext2    | 25.20 ms | 1.704 ms | 4.996 ms | 23.51 ms |
-| ReducedTablesDbContext2 | 19.69 ms | 1.883 ms | 5.522 ms | 17.06 ms |
-| JsonColumnDbContext2    | 10.02 ms | 0.198 ms | 0.372 ms | 10.09 ms |
+
+BulkReadBenchmark
+| Method                    | Mean     | Error    | StdDev   | Median   |
+|-------------------------- |---------:|---------:|---------:|---------:|
+| FullTablesDbContext2      | 88.80 ms | 3.469 ms | 9.841 ms | 89.45 ms |
+| ReducedTablesDbContext2   | 24.42 ms | 0.577 ms | 1.664 ms | 24.01 ms |
+| JsonColumnDbContext2      | 12.45 ms | 0.240 ms | 0.225 ms | 12.52 ms |
+| FullTablesDbContext2Pg    | 48.69 ms | 0.972 ms | 2.420 ms | 48.01 ms |
+| ReducedTablesDbContext2Pg | 24.07 ms | 0.478 ms | 0.671 ms | 23.88 ms |
+| JsonColumnDbContext2Pg    | 14.59 ms | 0.350 ms | 0.975 ms | 14.31 ms |
 
 SearchByNameBenchmark
-| Method                 | Mean     | Error     | StdDev    | Median   |
-|----------------------- |---------:|----------:|----------:|---------:|
-| FullTablesDbContext    | 2.979 ms | 0.0824 ms | 0.2298 ms | 2.986 ms |
-| ReducedTablesDbContext | 3.061 ms | 0.1759 ms | 0.5131 ms | 2.915 ms |
-| JsonColumnDbContext    | 3.630 ms | 0.1005 ms | 0.2850 ms | 3.593 ms |
- */
+| Method                   | Mean      | Error     | StdDev    | Median    |
+|------------------------- |----------:|----------:|----------:|----------:|
+| FullTablesDbContext      | 44.686 ms | 3.0452 ms | 8.5891 ms | 43.933 ms |
+| ReducedTablesDbContext   | 39.312 ms | 2.8135 ms | 8.2516 ms | 40.984 ms |
+| JsonColumnDbContext      | 36.268 ms | 2.5500 ms | 7.5189 ms | 38.350 ms |
+| FullTablesDbContextPg    | 15.796 ms | 0.5458 ms | 1.5921 ms | 15.499 ms |
+| ReducedTablesDbContextPg |  5.293 ms | 0.1289 ms | 0.3550 ms |  5.243 ms |
+| JsonColumnDbContextPg    | 13.436 ms | 0.5183 ms | 1.5202 ms | 13.550 ms |
+
 
 /*
 
