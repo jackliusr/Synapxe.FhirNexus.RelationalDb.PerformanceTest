@@ -9,9 +9,14 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
-    <PackageReference Include="Ihis.FhirEngine.Data.Models.R4" Version="4.0.0" />
-    <PackageReference Include="Ihis.FhirEngine.Data.Relational.SqlServer" Version="4.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Ihis.FhirEngine.Data.Models.R4\Ihis.FhirEngine.Data.Models.R4.csproj" />
+    <ProjectReference Include="..\..\src\Ihis.FhirEngine.Data.Relational.PostgreSql\Ihis.FhirEngine.Data.Relational.PostgreSql.csproj" />
+    <ProjectReference Include="..\..\src\Ihis.FhirEngine.Data.Relational.SqlServer\Ihis.FhirEngine.Data.Relational.SqlServer.csproj" />
   </ItemGroup>
 
 </Project>

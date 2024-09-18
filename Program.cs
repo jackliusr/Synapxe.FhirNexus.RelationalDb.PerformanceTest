@@ -1,9 +1,72 @@
-﻿using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Running;
 using Synapxe.FhirNexus.RelationalDb.PerformanceTest;
+/*
+ ManualConfig
+                    .Create(DefaultConfig.Instance)
+                    .WithOptions(ConfigOptions.JoinSummary)
+                    .WithOptions(ConfigOptions.DisableLogFile)
+                    .WithOptions(ConfigOptions.DisableOptimizationsValidator)
+ */
 
-BenchmarkRunner.Run<SearchByIdentifierBenchmark>();
-BenchmarkRunner.Run<BulkReadBenchmark>();
-BenchmarkRunner.Run<SearchByNameBenchmark>();
+
+BenchmarkRunner.Run<SearchByIdentifierBenchmark>(ManualConfig
+                    .Create(DefaultConfig.Instance)
+                    .WithOptions(ConfigOptions.JoinSummary)
+                    .WithOptions(ConfigOptions.DisableLogFile)
+                    .WithOptions(ConfigOptions.DisableOptimizationsValidator)
+                    .WithBuildTimeout(TimeSpan.FromMinutes(5)));
+BenchmarkRunner.Run<BulkReadBenchmark>(ManualConfig
+                    .Create(DefaultConfig.Instance)
+                    .WithOptions(ConfigOptions.JoinSummary)
+                    .WithOptions(ConfigOptions.DisableLogFile)
+                    .WithOptions(ConfigOptions.DisableOptimizationsValidator)
+                    .WithBuildTimeout(TimeSpan.FromMinutes(5)));
+BenchmarkRunner.Run<SearchByNameBenchmark>(ManualConfig
+                    .Create(DefaultConfig.Instance)
+                    .WithOptions(ConfigOptions.JoinSummary)
+                    .WithOptions(ConfigOptions.DisableLogFile)
+                    .WithOptions(ConfigOptions.DisableOptimizationsValidator)
+                    .WithBuildTimeout(TimeSpan.FromMinutes(5)));
+
+
+/*
+ * 
+ *   BenchmarkRunner
+            .Run<Benchmarks>(
+                ManualConfig
+                    .Create(DefaultConfig.Instance)
+                    .WithOptions(ConfigOptions.JoinSummary)
+                    .WithOptions(ConfigOptions.DisableLogFile)
+                    // or
+                    .WithOptions(ConfigOptions.JoinSummary | ConfigOptions.DisableLogFile));
+ */
+
+/* Postgresql
+
+BenchmarkDotNet v0.14.0, Windows 10 (10.0.19045.4894/22H2/2022Update)
+
+SearchByIdentifierBenchmark
+| Method                 | Mean     | Error    | StdDev   | Median   |
+|----------------------- |---------:|---------:|---------:|---------:|
+| FullTablesDbContext    | 24.26 ms | 1.473 ms | 4.031 ms | 23.10 ms |
+| ReducedTablesDbContext | 21.59 ms | 1.006 ms | 2.788 ms | 20.65 ms |
+| JsonColumnDbContext    | 13.16 ms | 0.347 ms | 0.991 ms | 12.98 ms |
+
+BulkReadBenchmark.
+| Method                  | Mean     | Error    | StdDev   | Median   |
+|------------------------ |---------:|---------:|---------:|---------:|
+| FullTablesDbContext2    | 25.20 ms | 1.704 ms | 4.996 ms | 23.51 ms |
+| ReducedTablesDbContext2 | 19.69 ms | 1.883 ms | 5.522 ms | 17.06 ms |
+| JsonColumnDbContext2    | 10.02 ms | 0.198 ms | 0.372 ms | 10.09 ms |
+
+SearchByNameBenchmark
+| Method                 | Mean     | Error     | StdDev    | Median   |
+|----------------------- |---------:|----------:|----------:|---------:|
+| FullTablesDbContext    | 2.979 ms | 0.0824 ms | 0.2298 ms | 2.986 ms |
+| ReducedTablesDbContext | 3.061 ms | 0.1759 ms | 0.5131 ms | 2.915 ms |
+| JsonColumnDbContext    | 3.630 ms | 0.1005 ms | 0.2850 ms | 3.593 ms |
+ */
 
 /*
 

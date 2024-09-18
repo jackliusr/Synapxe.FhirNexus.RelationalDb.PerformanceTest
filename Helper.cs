@@ -13,7 +13,7 @@ namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
 {
     internal class Helper
     {
-        public static OrganizationEntity CreateOrganizationEntity()
+        public static OrganizationEntity CreateOrganizationEntity(int hciCode)
         {
             return new OrganizationEntity
             {
@@ -21,59 +21,68 @@ namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
                 VersionId = 1,
                 Identifier =
                 [
-                    new() {
+                    new ()
+                    {
                         System = "http://ihis.sg/identifier/hci-code",
-                        Value = $"hci-{Random.Shared.Next(10000,99999)}"
-                    }
+                        Value = $"hci-{hciCode}",
+                    },
                 ],
                 Name = $"Test Organization {DateTime.Now:HHmmssfffffff}",
                 Active = true,
                 Type = [
-                    new() {
+                    new ()
+                    {
                         Coding =
                         [
-                            new() {
+                            new ()
+                            {
                                 System = "http://ihis.sg/ValueSet/hsg-organization-type",
-                                Code = "gp"
-                            }
-                        ]
-                    }
+                                Code = "gp",
+                            },
+                        ],
+                    },
                 ],
                 Telecom = [
-                    new() {
+                    new ()
+                    {
                        System = ContactPoint.ContactPointSystem.Phone.ToString(),
-                       Value = $"8{Random.Shared.Next(1000000,9999999)}"
-                    }
+                       Value = $"8{Random.Shared.Next(1000000,9999999)}",
+                    },
                 ],
                 Address = [
-                    new() {
+                    new () 
+                    {
                         Line = new StringsEntity("123 Test Street"),
                         City = "Test City",
                         State = "Test State",
                         PostalCode = "12345",
                         Country = "Test Country",
                         Type = Address.AddressType.Both.ToString(),
-                        Text = "123 Test Street, Test City, Test State, 12345, Test Country"
-                    }
+                        Text = "123 Test Street, Test City, Test State, 12345, Test Country",
+                    },
                 ],
-                Extension = [
-                    new() {
+                Extension =[
+                    new ()
+                    {
                         Url = new Uri("http://ihis.sg/extension/enrollment-capacity"),
-                        Value = CreateIntegerDataEntity(Random.Shared.Next(10, 800))
+                        Value = CreateIntegerDataEntity(Random.Shared.Next(10, 800)),
                     },
-                    new() {
+                    new()
+                    {
                         Url = new Uri("http://ihis.sg/extension/organization-status"),
-                        Value= CreateCodeableConceptCodingDataEntity("http://ihis.sg/ValueSet/hsg-organization-status", "provisional" )
+                        Value = CreateCodeableConceptCodingDataEntity("http://ihis.sg/ValueSet/hsg-organization-status", "provisional" ),
                     },
-                    new() {
+                    new ()
+                    {
                         Url = new Uri("http://ihis.sg/extension/capacity-status"),
-                        Value = CreateStringDataEntity("available")
+                        Value = CreateStringDataEntity("available"),
                     },
-                    new() {
+                    new ()
+                    {
                         Url = new Uri("http://ihis.sg/extension/org-opening-hours"),
-                        Value = CreateStringDataEntity("9:00am to 6:00pm")
-                    }
-                ]
+                        Value = CreateStringDataEntity("9:00am to 6:00pm"),
+                    },
+                ],
             };
         }
 
@@ -93,13 +102,14 @@ namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
             return dataEntity;
         }
 
-        public static DataEntity CreateCodeableConceptCodingDataEntity(string system, string code)
+        public 
+            static DataEntity CreateCodeableConceptCodingDataEntity(string system, string code)
         {
             var dataEntity = new DataEntity();
             dataEntity.CodeableConceptCoding1 = new CodingEntity
             {
                 System = system,
-                Code = code
+                Code = code,
             };
             dataEntity.TypeName = DataTypeName.CodeableConcept;
             return dataEntity;
@@ -109,9 +119,9 @@ namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
         {
             return new FhirRelationalOptions<T>()
             {
-                DefaultCollation = "Latin1_General_100_CI_AI_SC",
-                CaseInsensitiveCollation = "Latin1_General_100_CI_AI_SC",
-                CaseSensitiveCollation = "Latin1_General_100_CS_AS",
+                //DefaultCollation = "Latin1_General_100_CI_AI_SC",
+                //CaseInsensitiveCollation = "Latin1_General_100_CI_AI_SC",
+                //CaseSensitiveCollation = "Latin1_General_100_CS_AS",
                 CreateCompositeKeys = false,
                 IsVersioned = true,
                 JsonValueMethod = ReflectionUtil.GetMethodInfo(() => SqlServerJsonFunctions.JsonValue(string.Empty, string.Empty))
@@ -124,45 +134,49 @@ namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
             {
                 Identifier =
                 [
-                    new() {
+                    new ()
+                    {
                         System = "http://ihis.sg/identifier/hci-code",
-                        Value = $"hci-{Random.Shared.Next(10000,99999)}"
-                    }
+                        Value = $"hci-{Random.Shared.Next(10000,99999)}",
+                    },
                 ],
                 Name = $"Test Organization {DateTime.Now:HHmmssfffffff}",
                 Active = true,
                 Type = [
-                    new() {
-                        Coding =
-                        [
-                            new() {
+                    new () 
+                    {
+                        Coding = [
+                            new ()
+                            {
                                 System = "http://ihis.sg/ValueSet/hsg-organization-type",
-                                Code = "gp"
-                            }
-                        ]
+                                Code = "gp",
+                            },
+                        ],
                     }
                 ],
                 Telecom = [
                     new() {
                        System = ContactPoint.ContactPointSystem.Phone,
-                       Value = $"8{Random.Shared.Next(1000000,9999999)}"
-                    }
+                       Value = $"8{Random.Shared.Next(1000000,9999999)}",
+                    },
                 ],
                 Address = [
-                    new() {
+                    new() 
+                    {
                         Line = ["123 Test Street"],
                         City = "Test City",
                         State = "Test State",
                         PostalCode = "12345",
                         Country = "Test Country",
                         Type = Address.AddressType.Both,
-                        Text = "123 Test Street, Test City, Test State, 12345, Test Country"
-                    }
+                        Text = "123 Test Street, Test City, Test State, 12345, Test Country",
+                    },
                 ],
                 Extension = [
-                    new() {
+                    new() 
+                    {
                         Url = "http://ihis.sg/extension/enrollment-capacity",
-                        Value = new Integer(500)
+                        Value = new Integer(500),
                     },
                     new() {
                         Url = "http://ihis.sg/extension/organization-status",
@@ -170,20 +184,21 @@ namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
                             Coding = [
                                 new() {
                                     System = "http://ihis.sg/ValueSet/hsg-organization-status",
-                                    Code = "provisional"
+                                    Code = "provisional",
                                 }
-                            ]
-                        }
+                            ],
+                        },
                     },
                     new() {
                         Url = "http://ihis.sg/extension/capacity-status",
-                        Value = new FhirString("available") // Is FhirString correct to represent a code?
+                        Value = new FhirString("available"), // Is FhirString correct to represent a code?
                     },
-                    new() {
+                    new() 
+                    {
                         Url = "http://ihis.sg/extension/org-opening-hours",
-                        Value = new FhirString("9:00am to 6:00pm")
-                    }
-                ]
+                        Value = new FhirString("9:00am to 6:00pm"),
+                    },
+                ],
             };
 
             return organization;
@@ -198,23 +213,43 @@ namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
             services.AddSingleton(Helper.GetFhirRelationalOptions<FullTablesDbContext>());
             services.AddSingleton(Helper.GetFhirRelationalOptions<ReducedTablesDbContext>());
 
+
+            services.AddDbContext<FullTablesDbContextPg>();
+            services.AddDbContext<ReducedTablesDbContextPg>();
+            services.AddDbContext<JsonColumnDbContextPg>();
+            services.AddSingleton(Helper.GetFhirRelationalOptions<FullTablesDbContextPg>());
+            services.AddSingleton(Helper.GetFhirRelationalOptions<ReducedTablesDbContextPg>());
+
             var provider = services.BuildServiceProvider();
             var _fullTablesDbContext = provider.GetRequiredService<FullTablesDbContext>();
             var _reducedTablesDbContext = provider.GetRequiredService<ReducedTablesDbContext>();
             var _jsonColumnDbContext = provider.GetRequiredService<JsonColumnDbContext>();
 
+            var _fullTablesDbContextPg = provider.GetRequiredService<FullTablesDbContextPg>();
+            var _reducedTablesDbContextPg = provider.GetRequiredService<ReducedTablesDbContextPg>();
+            var _jsonColumnDbContextPg = provider.GetRequiredService<JsonColumnDbContextPg>();
+            
+            int hciCode = 10000;
             for (int i = 0; i < 200; i++)
             {
                 for (int j = 0; j < 50; j++)
                 {
-                    var organization = Helper.CreateOrganizationEntity();
+                    var organization = Helper.CreateOrganizationEntity(hciCode++);
                     await _fullTablesDbContext.AddAsync(organization);
                     await _reducedTablesDbContext.AddAsync(organization);
                     await _jsonColumnDbContext.AddAsync(organization);
+
+                    await _fullTablesDbContextPg.AddAsync(organization);
+                    await _reducedTablesDbContextPg.AddAsync(organization);
+                    await _jsonColumnDbContextPg.AddAsync(organization);
                 }
                 await _fullTablesDbContext.SaveChangesAsync();
                 await _reducedTablesDbContext.SaveChangesAsync();
                 await _jsonColumnDbContext.SaveChangesAsync();
+
+                await _fullTablesDbContextPg.SaveChangesAsync();
+                await _reducedTablesDbContextPg.SaveChangesAsync();
+                await _jsonColumnDbContextPg.SaveChangesAsync();
             }
         }
     }

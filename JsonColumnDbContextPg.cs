@@ -4,9 +4,9 @@ using Microsoft.Extensions.Options;
 
 namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
 {
-    internal class JsonColumnDbContext : DbContext
+    internal class JsonColumnDbContextPg : DbContext
     {
-        public JsonColumnDbContext(DbContextOptions<JsonColumnDbContext> options)
+        public JsonColumnDbContextPg(DbContextOptions<JsonColumnDbContextPg> options)
             : base(options)
         {
             // Database.EnsureDeleted();
@@ -17,14 +17,14 @@ namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=PerformanceTest.JsonColumn;Trusted_Connection=True;");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=performancetest_jsoncolumn;Username=postgres;Password=Orange1SG", o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var options = Helper.GetFhirRelationalOptions<JsonColumnDbContext>();
+            var options = Helper.GetFhirRelationalOptions<JsonColumnDbContextPg>();
             modelBuilder.UseCollation(options.DefaultCollation);
-            //modelBuilder.HasDbFunction(options.JsonValueMethod);
+            modelBuilder.HasDbFunction(options.JsonValueMethod);
 
             modelBuilder.Entity<OrganizationEntity>()
                 .OwnsMany(o => o.Identifier, ownedNavigationBuilder =>

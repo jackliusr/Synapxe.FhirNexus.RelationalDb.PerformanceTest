@@ -4,9 +4,9 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 
 namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
 {
-    internal class FullTablesDbContext : DbContext
+    internal class FullTablesDbContextPg : DbContext
     {
-        public FullTablesDbContext(DbContextOptions<FullTablesDbContext> options)
+        public FullTablesDbContextPg(DbContextOptions<FullTablesDbContextPg> options)
             : base(options)
         {
             // Database.EnsureDeleted();
@@ -17,7 +17,7 @@ namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=PerformanceTest.FullTables;Trusted_Connection=True;");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=performancetest_fulltables;Username=postgres;Password=Orange1SG");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

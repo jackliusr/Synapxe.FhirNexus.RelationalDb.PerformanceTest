@@ -10,7 +10,9 @@ namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
         private FullTablesDbContext _fullTablesDbContext;
         private ReducedTablesDbContext _reducedTablesDbContext;
         private JsonColumnDbContext _jsonColumnDbContext;
-
+        private FullTablesDbContextPg _fullTablesDbContextPg;
+        private ReducedTablesDbContextPg _reducedTablesDbContextPg;
+        private JsonColumnDbContextPg _jsonColumnDbContextPg;
         [GlobalSetup]
         public async void Setup()
         {
@@ -18,19 +20,28 @@ namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
             services.AddDbContext<FullTablesDbContext>();
             services.AddDbContext<ReducedTablesDbContext>();
             services.AddDbContext<JsonColumnDbContext>();
+            services.AddDbContext<FullTablesDbContextPg>();
+            services.AddDbContext<ReducedTablesDbContextPg>();
+            services.AddDbContext<JsonColumnDbContextPg>();
             services.AddSingleton(Helper.GetFhirRelationalOptions<FullTablesDbContext>());
             services.AddSingleton(Helper.GetFhirRelationalOptions<ReducedTablesDbContext>());
-
+            services.AddSingleton(Helper.GetFhirRelationalOptions<FullTablesDbContextPg>());
+            services.AddSingleton(Helper.GetFhirRelationalOptions<ReducedTablesDbContextPg>());
             var provider = services.BuildServiceProvider();
             _fullTablesDbContext = provider.GetRequiredService<FullTablesDbContext>();
             _reducedTablesDbContext = provider.GetRequiredService<ReducedTablesDbContext>();
             _jsonColumnDbContext = provider.GetRequiredService<JsonColumnDbContext>();
+
+            _fullTablesDbContextPg = provider.GetRequiredService<FullTablesDbContextPg>();
+            _reducedTablesDbContextPg = provider.GetRequiredService<ReducedTablesDbContextPg>();
+            _jsonColumnDbContextPg = provider.GetRequiredService<JsonColumnDbContextPg>();
+
         }
 
         [IterationSetup]
         public void IterationSetup()
         {
-            hcicode = $"hci-{Random.Shared.Next(10000, 99999)}";
+            hcicode = $"hci-{Random.Shared.Next(10000, 19999)}";
         }
 
         [Benchmark]
@@ -49,6 +60,23 @@ namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
         public void JsonColumnDbContext()
         {
             _jsonColumnDbContext.Organization.Where(x => x.Name.Contains("Test Organization 1628049360871")).ToList();
+        }
+        [Benchmark]
+        public void FullTablesDbContextPg()
+        {
+            _fullTablesDbContextPg.Organization.Where(x => x.Name.Contains("Test Organization 1628049360871")).ToList();
+        }
+
+        [Benchmark]
+        public void ReducedTablesDbContextPg()
+        {
+            _reducedTablesDbContextPg.Organization.Where(x => x.Name.Contains("Test Organization 1628049360871")).ToList();
+        }
+
+        [Benchmark]
+        public void JsonColumnDbContextPg()
+        {
+            _jsonColumnDbContextPg.Organization.Where(x => x.Name.Contains("Test Organization 1628049360871")).ToList();
         }
     }
 }

@@ -3,20 +3,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Synapxe.FhirNexus.RelationalDb.PerformanceTest
 {
-    internal class ReducedTablesDbContext : DbContext
+    internal class ReducedTablesDbContextPg : DbContext
     {
-        public ReducedTablesDbContext(DbContextOptions<ReducedTablesDbContext> options)
+        public ReducedTablesDbContextPg(DbContextOptions<ReducedTablesDbContextPg> options)
             : base(options)
         {
             // Database.EnsureDeleted();
             Database.EnsureCreated();
+
         }
 
         public DbSet<OrganizationEntity> Organization => Set<OrganizationEntity>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=PerformanceTest_ReducedTables;Trusted_Connection=True;");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=performancetest_reducedtables;Username=postgres;Password=Orange1SG");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
